@@ -9,13 +9,14 @@ namespace MTBS.Domain.Abstracts
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null!);
+        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null!,
+            CancellationToken cancellationToken = default);
 
         Task<T> FindAsync(Expression<Func<T, bool>> predicate);
         Task<T> FindAsync(object id);
 
-        Task<T> AddAsync(T entity);
-        Task<IEnumerable<T>> AddRangeAsync(T entity);
+        Task AddAsync(T entity);
+        Task AddRangeAsync(T entity);
 
         void Update(T entity);
         void UpdateRange(IEnumerable<T> entities);
