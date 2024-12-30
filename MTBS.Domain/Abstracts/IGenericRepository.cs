@@ -16,7 +16,7 @@ namespace MTBS.Domain.Abstracts
         Task<T> FindAsync(object id);
 
         Task AddAsync(T entity);
-        Task AddRangeAsync(T entity);
+        Task AddRangeAsync(IEnumerable<T> entities);
 
         void Update(T entity);
         void UpdateRange(IEnumerable<T> entities);
