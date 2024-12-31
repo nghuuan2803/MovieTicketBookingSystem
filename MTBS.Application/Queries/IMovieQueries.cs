@@ -1,5 +1,5 @@
 ﻿using MTBS.Application.DTOs;
-using MTBS.Application.Features.MovieManagement.Queries;
+using MTBS.Application.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;

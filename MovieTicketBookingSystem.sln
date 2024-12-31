@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTBS.Domain", "MTBS.Domain\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTBS.Application", "MTBS.Application\MTBS.Application.csproj", "{FC473BA6-8D3C-4A85-B51E-AEA33BAC3DB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTBS.Infrastructure", "MTBS.Infrastructure\MTBS.Infrastructure.csproj", "{603D06F2-72FB-44ED-A951-26E04C66C641}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FC473BA6-8D3C-4A85-B51E-AEA33BAC3DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC473BA6-8D3C-4A85-B51E-AEA33BAC3DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC473BA6-8D3C-4A85-B51E-AEA33BAC3DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{603D06F2-72FB-44ED-A951-26E04C66C641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{603D06F2-72FB-44ED-A951-26E04C66C641}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{603D06F2-72FB-44ED-A951-26E04C66C641}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{603D06F2-72FB-44ED-A951-26E04C66C641}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

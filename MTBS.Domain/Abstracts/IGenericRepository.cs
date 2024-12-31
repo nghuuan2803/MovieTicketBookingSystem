@@ -21,8 +21,9 @@ namespace MTBS.Domain.Abstracts
         void Update(T entity);
         void UpdateRange(IEnumerable<T> entities);
 
-        bool Remove(T entity);
-        bool RemoveById(object id);
-        bool RemoveRange(IEnumerable<T> entity);
+        void Remove(T entity);
+        Task<bool> RemoveByIdAsync(object id);
+        void RemoveRange(IEnumerable<T> entities);
+        Task RemoveRangeByIdsAsync(IEnumerable<object> ids);
     }
 }
