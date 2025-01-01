@@ -6,7 +6,7 @@ using MTBS.Domain.Entities;
 
 namespace MTBS.Application.Features
 {
-    public class AddMovieCommandHandler(IUnitOfWork unitOfWork, 
+    public class AddMovieCommandHandler(//IUnitOfWork unitOfWork, 
         IMovieRepository movieRepository, IMapper mapper)
         : IRequestHandler<AddMovieCommand, Result<MovieModel>>
     {
@@ -18,7 +18,7 @@ namespace MTBS.Application.Features
 
             await movieRepository.AddAsync(movie);
 
-            await unitOfWork.SaveChangesAsync();
+            //await unitOfWork.SaveChangesAsync();
 
             var model = mapper.Map<MovieModel>(movie);
 
