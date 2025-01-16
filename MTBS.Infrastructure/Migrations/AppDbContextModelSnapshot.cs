@@ -17,63 +17,98 @@ namespace MTBS.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MTBS.Domain.Entities.Movie", b =>
+            modelBuilder.Entity("MTBS.Domain.SampleModels.Ghe", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Actors")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Director")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("bit");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<int>("Cot")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Hang")
+                        .HasColumnType("int");
+
+                    b.Property<double>("HeSoGia")
+                        .HasColumnType("float");
+
+                    b.Property<int>("LoaiGhe")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PhongChieuId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SoGhe")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("ReleaseDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Studio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdateBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.HasIndex("PhongChieuId");
+
+                    b.ToTable("Ghes");
                 });
 
-            modelBuilder.Entity("MTBS.Infrastructure.DbContexts.TestTable", b =>
+            modelBuilder.Entity("MTBS.Domain.SampleModels.HoaDon", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("KhachHangId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("ThanhTien")
+                        .HasColumnType("float");
+
+                    b.Property<int>("XuatChieuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KhachHangId");
+
+                    b.HasIndex("XuatChieuId");
+
+                    b.ToTable("HoaDons");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.KhachHang", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Ten")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("KhachHangs");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.Phim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -81,7 +116,241 @@ namespace MTBS.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TestTables");
+                    b.ToTable("Phims");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.PhongChieu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("HeSoGia")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Layout")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Metadata")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SoCot")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoGhe")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoHang")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Ten")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PhongChieus");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.Ve", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CapNhatLuc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GheId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Gia")
+                        .HasColumnType("float");
+
+                    b.Property<string>("NguoiGiu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
+
+                    b.Property<int>("XuatChieuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GheId");
+
+                    b.HasIndex("XuatChieuId");
+
+                    b.ToTable("Ves");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.XuatChieu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("GioChieu")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("GioKetThuc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PhimId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PhongChieuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ThoiLuong")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhimId");
+
+                    b.HasIndex("PhongChieuId");
+
+                    b.ToTable("XuatChieus");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SimpleModels.ChiTietHD", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("GiaCuoi")
+                        .HasColumnType("float");
+
+                    b.Property<int>("HoaDonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HoaDonId");
+
+                    b.HasIndex("VeId");
+
+                    b.ToTable("ChiTietHDs");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.Ghe", b =>
+                {
+                    b.HasOne("MTBS.Domain.SampleModels.PhongChieu", "PhongChieu")
+                        .WithMany("DsGhe")
+                        .HasForeignKey("PhongChieuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PhongChieu");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.HoaDon", b =>
+                {
+                    b.HasOne("MTBS.Domain.SampleModels.KhachHang", "KhachHang")
+                        .WithMany("DsHoaDon")
+                        .HasForeignKey("KhachHangId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MTBS.Domain.SampleModels.XuatChieu", "XuatChieu")
+                        .WithMany()
+                        .HasForeignKey("XuatChieuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("KhachHang");
+
+                    b.Navigation("XuatChieu");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.Ve", b =>
+                {
+                    b.HasOne("MTBS.Domain.SampleModels.Ghe", "Ghe")
+                        .WithMany()
+                        .HasForeignKey("GheId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MTBS.Domain.SampleModels.XuatChieu", "XuatChieu")
+                        .WithMany("DsVe")
+                        .HasForeignKey("XuatChieuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ghe");
+
+                    b.Navigation("XuatChieu");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.XuatChieu", b =>
+                {
+                    b.HasOne("MTBS.Domain.SampleModels.Phim", "Phim")
+                        .WithMany()
+                        .HasForeignKey("PhimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MTBS.Domain.SampleModels.PhongChieu", "PhongChieu")
+                        .WithMany()
+                        .HasForeignKey("PhongChieuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Phim");
+
+                    b.Navigation("PhongChieu");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SimpleModels.ChiTietHD", b =>
+                {
+                    b.HasOne("MTBS.Domain.SampleModels.HoaDon", "HoaDon")
+                        .WithMany("DsVe")
+                        .HasForeignKey("HoaDonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MTBS.Domain.SampleModels.Ve", "Ve")
+                        .WithMany()
+                        .HasForeignKey("VeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HoaDon");
+
+                    b.Navigation("Ve");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.HoaDon", b =>
+                {
+                    b.Navigation("DsVe");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.KhachHang", b =>
+                {
+                    b.Navigation("DsHoaDon");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.PhongChieu", b =>
+                {
+                    b.Navigation("DsGhe");
+                });
+
+            modelBuilder.Entity("MTBS.Domain.SampleModels.XuatChieu", b =>
+                {
+                    b.Navigation("DsVe");
                 });
 #pragma warning restore 612, 618
         }

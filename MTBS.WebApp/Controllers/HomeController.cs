@@ -8,12 +8,10 @@ namespace MTBS.WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly MockTable _table;
 
-        public HomeController(ILogger<HomeController> logger, MockTable table)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _table = table;
         }
 
         public IActionResult Index()

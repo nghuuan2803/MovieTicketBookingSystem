@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MTBS.Domain.Abstracts.Repositories;
+using Newtonsoft.Json;
 
 namespace MTBS.WebApp.Controllers
 {
@@ -13,6 +14,20 @@ namespace MTBS.WebApp.Controllers
         {
             var movie = await _data.FindAsync(id);
             return Ok(movie);
+        }
+
+        [HttpGet]
+        public ActionResult Layout()
+        {
+            int[,] matrix =
+            {
+                { 0, 1, 2, },
+                { 1, 2, 3, }
+            };
+            var rs = new {matrix = matrix};
+
+            string response = JsonConvert.SerializeObject(rs);
+            return Ok(response);
         }
     }
 }

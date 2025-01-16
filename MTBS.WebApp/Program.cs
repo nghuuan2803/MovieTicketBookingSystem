@@ -1,6 +1,8 @@
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using MTBS.Application.RegisterDI;
 using MTBS.Infrastructure.RegisterDI;
+using MTBS.WebApp.BackgroudTaskServices;
+using MTBS.WebApp.Hubs;
 
 namespace MTBS.WebApp
 {
@@ -39,16 +41,21 @@ namespace MTBS.WebApp
                     }
                 });
             });
-
+            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddApplication()
                 .AddInfrastructure(builder.Configuration);
+
+            //đăng ký background
+            builder.Services.AddHostedService<AutoReleaseSeatService>();
+
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
+                //app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -57,6 +64,13 @@ namespace MTBS.WebApp
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors(o =>
+            {
+                o.AllowAnyOrigin();
+                o.AllowAnyHeader();
+                o.AllowAnyMethod();
+            });
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseAuthentication();
@@ -66,13 +80,7 @@ namespace MTBS.WebApp
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapControllers();
-
-            app.UseCors(o =>
-            {
-                o.AllowAnyOrigin();
-                o.AllowAnyHeader();
-                o.AllowAnyMethod();
-            });
+            app.MapHub<SeatHub>("/seathub");
             app.Run();
         }
     }

@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "MTBS.WebApp\\MTBS.WebApp.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "BlazorApp.MovieTicketBooking\\BlazorApp.MovieTicketBooking\\BlazorApp.MovieTicketBooking.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

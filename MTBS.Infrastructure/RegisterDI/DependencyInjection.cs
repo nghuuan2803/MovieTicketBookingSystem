@@ -30,7 +30,6 @@ namespace MTBS.Infrastructure.RegisterDI
             });
 
             services.AddScoped<IMovieRepository, MockMovieRepo>();
-            services.AddScoped<MockTable, MockTable>();
             services.AddAuthentication(o =>
             {
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

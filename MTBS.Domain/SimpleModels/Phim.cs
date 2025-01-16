@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTBS.Infrastructure.DbContexts
+namespace MTBS.Domain.SampleModels
 {
-    public class TestTable
+    public class Phim
     {
         [Key]
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }
