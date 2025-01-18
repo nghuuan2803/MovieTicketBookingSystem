@@ -1,0 +1,26 @@
+﻿@using MTBS.Domain.SampleModels
+
+<div class="ve">
+    <div class=@Class style="top:-2px;left:-2px;position: relative">
+        @Data?.Ghe?.SoGhe
+    </div>
+    <div class="trung-tam" style="width:@Width;height:@Height">
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public Ve Data { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = "btn btn-success ve-item";
+
+    [Parameter]
+    public int[] Center { get; set; }
+
+    public string Width => (36 * Center[0]) + "px";
+
+    public string Height => (32 * Center[1]) + "px";
+}

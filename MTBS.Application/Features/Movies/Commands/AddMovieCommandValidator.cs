@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace MTBS.Application.Features
 {
-    public class AddMovieCommandValidator : AbstractValidator<AddMovieCommand>
-    {
-        public AddMovieCommandValidator()
-        {
-            RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required");
-            RuleFor(x => x.Duration).GreaterThan(0).WithMessage("Duration must be greater than 0");
-        }
-    }
+    //public class AddMovieCommandValidator : AbstractValidator<AddMovieCommand>
+    //{
+    //    public AddMovieCommandValidator()
+    //    {
+    //        RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required");
+    //        RuleFor(x => x.Duration).GreaterThan(0).WithMessage("Duration must be greater than 0");
+    //    }
+    //}
 }

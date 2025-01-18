@@ -1,0 +1,60 @@
+﻿@using BlazorApp.MovieTicketBooking.Client.StateManagers
+@using MTBS.Domain.SampleModels
+@inject VeStateManager VeStateManager
+
+<div class="ve-item @Color" @onclick="OnClick">
+    @Data?.Ghe?.SoGhe
+</div>
+
+
+@code {
+    [Parameter]
+    public int VeId { get; set; }
+    private Ve Data;
+
+    [Parameter]
+    public string HubId { get; set; }
+
+    public string Color
+    {
+        get
+        {
+            if (Data.TrangThai == 0)
+                return "btn btn-success";
+            else if (Data.TrangThai == 1 && HubId == Data.NguoiGiu)
+                return "btn btn-primary";
+            else if (Data.TrangThai == 1)
+                return "btn btn-secondary";
+            return "btn btn-danger";
+        }
+    }
+
+    [Parameter]
+    public EventCallback<Ve> OnSelect { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Data = VeStateManager.GetVe(VeId);
+        //VeStateManager.KhiVeCapNhat[VeId] = HandleVeStateChanged;
+        VeStateManager.AddOrUpdateCallback(VeId, HandleVeStateChanged);
+    }
+
+    private async Task OnClick()
+    {
+        await OnSelect.InvokeAsync(Data);
+    }
+    private void HandleVeStateChanged(int veId, Ve updatedVe)
+    {
+        if (VeId == veId)
+        {
+            Data = updatedVe;
+            StateHasChanged();
+            Console.WriteLine($"[Ve:{VeId}]Thread ID: "+Environment.CurrentManagedThreadId);
+        }
+        Console.WriteLine($"[ve:{veId}]Thread ID: " + Environment.CurrentManagedThreadId);
+    }
+    public void Dispose()
+    {
+        VeStateManager.KhiVeCapNhat.Remove(VeId);
+    }
+}

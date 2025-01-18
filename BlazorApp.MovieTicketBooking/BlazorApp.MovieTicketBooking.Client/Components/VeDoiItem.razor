@@ -1,0 +1,21 @@
+﻿@using MTBS.Domain.SampleModels
+
+<div class="ve">
+    <div class=@Class>
+        @Data?.Ghe?.SoGhe
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public Ve Data { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = "btn btn-info ve-doi-item";
+
+    // [Parameter]
+    // public string Style { get; set; }
+
+    public int MyProperty { get; set; }
+}

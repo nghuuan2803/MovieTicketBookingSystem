@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using MTBS.Domain.Abstracts;
 using MTBS.Domain.Abstracts.Repositories;
-using MTBS.Infrastructure.MockData.MockRepos;
+using MTBS.Domain.Entities;
+using MTBS.Infrastructure.Implements.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +22,26 @@ namespace MTBS.Infrastructure.RegisterDI
         {
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("SqlServer"),
-                    builder =>
-                    {
-                        builder.EnableRetryOnFailure(
-                        maxRetryCount: 5, // Số lần thử lại tối đa
-                        maxRetryDelay: TimeSpan.FromSeconds(30), // Thời gian chờ giữa các lần thử lại
-                        errorNumbersToAdd: null); // Null để áp dụng mặc định các lỗi tạm thời
-                    });
+                options.UseSqlServer(configuration.GetConnectionString("SqlServer")
+                    //,builder =>
+                    //{
+                    //    builder.EnableRetryOnFailure(
+                    //    maxRetryCount: 3, // Số lần thử lại tối đa
+                    //    maxRetryDelay: TimeSpan.FromSeconds(10), // Thời gian chờ giữa các lần thử lại
+                    //    errorNumbersToAdd: null); // Null để áp dụng mặc định các lỗi tạm thời
+                    //}
+                    );
             });
-
-            services.AddScoped<IMovieRepository, MockMovieRepo>();
+            services.AddIdentity<User,Role>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.User.RequireUniqueEmail = false;
+            }).AddEntityFrameworkStores<AppDbContext>().AddSignInManager();
             services.AddAuthentication(o =>
             {
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -55,7 +67,8 @@ namespace MTBS.Infrastructure.RegisterDI
 
                         // Chỉ định đường dẫn của hub
                         var path = context.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/notificationHub"))
+                        //if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/notificationHub"))
+                        if (!string.IsNullOrEmpty(accessToken))
                         {
                             context.Token = accessToken;
                         }
@@ -64,6 +77,13 @@ namespace MTBS.Infrastructure.RegisterDI
                 };
             });
             //...
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICinemaRepository, CinemaRepository>();
+            services.AddScoped<IHallRepository, HallRepository>();
+            services.AddScoped<ISeatRepository, SeatRepository>();
+            services.AddScoped<IShowTimeRepository, ShowTimeRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
             return services;
         }
     }

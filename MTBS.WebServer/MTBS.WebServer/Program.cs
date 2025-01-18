@@ -3,6 +3,7 @@ using MTBS.WebServer.Client.Pages;
 using MTBS.WebServer.Components;
 using MTBS.Application.RegisterDI;
 using MTBS.Infrastructure.RegisterDI;
+using MTBS.WebServer.Middlewares;
 
 namespace MTBS.WebServer
 {
@@ -48,7 +49,7 @@ namespace MTBS.WebServer
             builder.Services.AddApplication()
                 .AddInfrastructure(builder.Configuration);
             builder.Services.AddSignalR();
-            //builder.Services.AddHostedService<AutoReleaseSeatService>();
+            builder.Services.AddHostedService<AutoReleaseTicketService>();
 
             var app = builder.Build();
 
@@ -77,9 +78,10 @@ namespace MTBS.WebServer
             app.UseSwaggerUI();
             app.UseAuthentication();
             app.UseAuthorization();
+            //app.UseMiddleware<ValidationExceptionMiddleware>();
 
             app.MapControllers();
-            //app.MapHub<SeatHub>("/seathub");
+            app.MapHub<TicketHub>("/ticketHub");
             app.MapStaticAssets();
             app.MapRazorComponents<App>()
                 .AddInteractiveWebAssemblyRenderMode()

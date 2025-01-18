@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using MTBS.Application.RegisterDI;
 using MTBS.Infrastructure.RegisterDI;
-using MTBS.WebApp.BackgroudTaskServices;
+
 using MTBS.WebApp.Hubs;
 
 namespace MTBS.WebApp
@@ -46,7 +46,7 @@ namespace MTBS.WebApp
                 .AddInfrastructure(builder.Configuration);
 
             //đăng ký background
-            builder.Services.AddHostedService<AutoReleaseSeatService>();
+
 
             builder.Services.AddSignalR();
 

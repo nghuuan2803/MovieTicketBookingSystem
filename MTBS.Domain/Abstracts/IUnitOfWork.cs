@@ -11,6 +11,6 @@ namespace MTBS.Domain.Abstracts
         Task BeginAsync();
         Task CommitAsync();
         Task RollBackAsync();
-        Task SaveChangesAsync();
+        Task SaveAsync();
     }
 }

@@ -13,9 +13,11 @@ namespace MTBS.Domain.Abstracts
         public T Id { get; set; }
 
         public DateTimeOffset CreatedAt { get; set; }
+        [MaxLength(32)]
         public string? CreatedBy { get; set; }
 
         public DateTimeOffset? UpdatedAt { get; set; }
-        public string? UpdateBy { get; set; }
+        [MaxLength(32)]
+        public string? UpdatedBy { get; set; }
     }
 }

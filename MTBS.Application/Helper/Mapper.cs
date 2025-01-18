@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using MTBS.Application.Features;
 using MTBS.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MTBS.Shared.CinemaDTOs;
+using MTBS.Shared.HallDTOs;
+using MTBS.Shared.MovieDTOs;
+using MTBS.Shared.ShowTimeDTOs;
 
 namespace MTBS.Application.Helper
 {
@@ -14,7 +12,11 @@ namespace MTBS.Application.Helper
         public Mapper()
         {
             CreateMap<Movie, MovieModel>().ReverseMap();
-            CreateMap<Movie, AddMovieCommand>();
+            CreateMap<AddCinemaRequest, Cinema>();
+            CreateMap<AddHallRequest, Hall>();
+            CreateMap<AddShowTimeRequest, ShowTime>();
+            CreateMap<AddMovieRequest, Movie>();
+            //CreateMap<Movie, AddMovieCommand>();
         }
     }
 }

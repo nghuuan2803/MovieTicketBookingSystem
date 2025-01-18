@@ -27,21 +27,21 @@ namespace MTBS.WebServer
                     var currentDateTime = DateTime.Now;
                     var timeoutDateTime = currentDateTime - _timeout;
                     //lấy danh sách vé hết hạn giữ
-                    var expiredSeats = await db.Ves
-                        .Where(v => v.TrangThai == 1 && v.CapNhatLuc < timeoutDateTime)
+                    var expiredSeats = await db.Tickets
+                        .Where(v => v.Status == 1 && v.UpdatedAt < timeoutDateTime)
                         .ToListAsync(stoppingToken);
 
 
                     //Gọi hub để thông báo nhả từng ghế cho client
-                    foreach (var ve in expiredSeats)
+                    foreach (var ticket in expiredSeats)
                     {
-                        ve.TrangThai = 0; // Nhả ghế
-                        ve.NguoiGiu = string.Empty; // Xóa mã kết nối
-                        ve.CapNhatLuc = DateTime.Now;
+                        ticket.Status = 0; // Nhả ghế
+                        ticket.HoldBy = string.Empty; // Xóa mã kết nối
+                        ticket.UpdatedAt = DateTime.Now;
 
                         // Gửi thông báo real-time cho các client
-                        //await _hubContext.Clients.Group(ve.XuatChieuId.ToString()).SendAsync("CapNhatTrangThaiGhe", new { VeId = ve.Id, TrangThai = 0 }, stoppingToken);
-                        await _hubContext.Clients.Group(ve.XuatChieuId.ToString()).SendAsync("ReceiveSeatStatus", ve.Id, 0,string.Empty);
+                        
+                        await _hubContext.Clients.Group(ticket.ShowTimeId.ToString()).SendAsync("ReceiveSeatStatus", ticket.Id, 0, string.Empty);
                     }
 
                     if (expiredSeats.Any())

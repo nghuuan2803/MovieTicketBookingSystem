@@ -12,18 +12,22 @@ namespace MTBS.Domain.Abstracts
         Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null!,
             CancellationToken cancellationToken = default);
 
-        Task<T> FindAsync(Expression<Func<T, bool>> predicate);
-        Task<T> FindAsync(object id);
+        Task<T> FindAsync(Expression<Func<T, bool>> predicate, 
+            CancellationToken cancellationToken = default);
 
-        Task AddAsync(T entity);
-        Task AddRangeAsync(IEnumerable<T> entities);
+        Task<T> FindAsync(object id, CancellationToken cancellationToken = default);
+
+        Task AddAsync(T entity, CancellationToken cancellationToken = default);
+        Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
         void Update(T entity);
         void UpdateRange(IEnumerable<T> entities);
 
         void Remove(T entity);
-        Task<bool> RemoveByIdAsync(object id);
+        Task<bool> RemoveByIdAsync(object id, CancellationToken cancellationToken = default);
+
         void RemoveRange(IEnumerable<T> entities);
-        Task RemoveRangeByIdsAsync(IEnumerable<object> ids);
+
+        Task SaveAsync();
     }
 }

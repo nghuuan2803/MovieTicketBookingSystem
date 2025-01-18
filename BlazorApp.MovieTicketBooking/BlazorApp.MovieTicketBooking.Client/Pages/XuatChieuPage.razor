@@ -1,0 +1,72 @@
+﻿@implements IAsyncDisposable
+
+@page "/xuat-chieu"
+<h3>Suất chiếu</h3>
+<style>
+    .ve-item {
+        width: 32px;
+        height: 28px;
+        font-size: 10px;
+        text-align: center;
+        align-content: center;
+        margin: 2px;
+        padding: 0px;
+        position: relative;
+    }
+
+    .ve-doi-item {
+        width: 64px;
+        font-size: 10px;
+        text-align: center;
+        position: relative;
+        left: -36px;
+    }
+
+    .ve {
+        width: 32px;
+        margin: 2px;
+    }
+
+    .trung-tam {
+        border: 1px solid red;
+        border-radius: 5px;
+        position: relative;
+        top: -34px;
+        left: -2px;
+        z-index: -1;
+    }
+</style>
+
+@if (!loading)
+{
+    <p>@Data?.TenPhong</p>
+    <p>@Data?.TenPhim</p>
+    <p>@Data?.GioChieu - @Data?.GioKetThuc</p>
+    @for (int i = 0; i < Layout.GetLength(0); i++)
+    {
+        <div style="display:flex;height:32px">
+            @for (int j = 0; j < Layout.GetLength(1); j++)
+            {
+                if (Layout[i, j] == 0)
+                {
+                    <VeOffsetItem />
+                }
+                else if (Layout[i, j] == 1)
+                {
+                    if (i == metadata.Center[0] && j == metadata.Center[2])
+                    {
+                        <VeCenterComponent Data=arrVe[i,j] Center="@([metadata.Center[1],metadata.Center[3]])" />
+                    }
+                    else
+                    {
+                        <VeItem HubId=@hubId OnSelect=HandleSeatSelect VeId=arrVe[i,j].Id />
+                    }
+                }
+                else
+                {
+                    <VeDoiItem Data=arrVe[i,j] />
+                }
+            }
+        </div>
+    }
+}

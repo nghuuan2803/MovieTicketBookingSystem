@@ -6,19 +6,11 @@ using System.Threading.Tasks;
 
 namespace MTBS.Shared.SimpleDTOs
 {
-
-    public class SeatLayout
-    {
-        public string Layout { get; set; }
-        public Metadata? Metadata { get; set; }
-    }
-
     public class Metadata
     {
         public int Rows { get; set; }
         public int Columns { get; set; }
-        public int[] Center { get; set; }
-        public int[] LoiDi { get; set; }
+        public required int[] Center { get; set; }
+        public required int[] FootPath { get; set; }
     }
-
 }
