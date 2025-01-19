@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MTBS.Domain.Abstracts.Repositories;
+using MTBS.Domain.Entities;
 using MTBS.Shared.ShowTimeDTOs;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,10 @@ namespace MTBS.Application.Features.ShowTimes.Commands
         private IMovieRepository _movieRepository;
         private IShowTimeRepository _showTimeRepository;
 
+        private Movie? _movie;
+
         public AddShowTimeValidator(IServiceProvider serviceProvider,
-            AddShowTimeRequest request): base(request)
+            AddShowTimeRequest request) : base(request)
         {
             _hallRepository = serviceProvider.GetRequiredService<IHallRepository>();
             _movieRepository = serviceProvider.GetRequiredService<IMovieRepository>();
@@ -42,12 +45,12 @@ namespace MTBS.Application.Features.ShowTimes.Commands
 
         public override async Task ValidateMovie()
         {
-            var movie = await _movieRepository.FindAsync(request.MovieId);
-            if (movie == null)
+            _movie = await _movieRepository.FindAsync(request.MovieId);
+            if (_movie == null)
             {
                 errors.Add(new(Code: "showtime-movie", Description: "Phim không tồn tại!"));
             }
-            else if (movie.IsDeleted)
+            else if (_movie.IsDeleted)
             {
                 errors.Add(new(Code: "showtime-movie", Description: "Phim đã bị xóa!"));
             }
@@ -57,10 +60,24 @@ namespace MTBS.Application.Features.ShowTimes.Commands
             //}
         }
 
-        public override Task ValidateTime()
+        public override async Task ValidateTime()
         {
-            //...
-            return Task.CompletedTask;
+            int duration = _movie is null ? 0 : _movie.Duration;
+            var newEndAt = request.BeginAt.AddMinutes(20 + duration);
+            // Lấy tất cả các suất chiếu trong cùng phòng (Hall) và không bị hủy hoặc xóa
+            var overlappingShowTimes = await _showTimeRepository.GetAllAsync(
+                st => st.HallId == request.HallId
+                     && !st.IsCanceled
+                     && !st.IsDeleted
+                     && ((request.BeginAt >= st.BeginAt && request.BeginAt < st.EndAt) ||
+                         (newEndAt > st.BeginAt && newEndAt <= st.EndAt) ||
+                         (request.BeginAt <= st.BeginAt && newEndAt >= st.EndAt))
+                );
+
+            if (overlappingShowTimes.Any())
+            {
+                errors.Add(new("showtime-overlap", "Bị trùng giờ với suất chiếu khác!"));
+            }
         }
     }
 }

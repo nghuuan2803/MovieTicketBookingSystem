@@ -9,7 +9,6 @@ namespace MTBS.Shared.MovieDTOs
 {
     public class AddMovieRequest
     {
-        public int Id { get; set; }
         [MaxLength(100)]
         public required string Name { get; set; } = string.Empty;
         public string? Description { get; set; } = string.Empty;

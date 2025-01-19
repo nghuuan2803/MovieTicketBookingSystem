@@ -4,6 +4,7 @@ using MTBS.WebServer.Components;
 using MTBS.Application.RegisterDI;
 using MTBS.Infrastructure.RegisterDI;
 using MTBS.WebServer.Middlewares;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace MTBS.WebServer
 {
@@ -50,7 +51,7 @@ namespace MTBS.WebServer
                 .AddInfrastructure(builder.Configuration);
             builder.Services.AddSignalR();
             builder.Services.AddHostedService<AutoReleaseTicketService>();
-
+            builder.Services.AddFluentUIComponents();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -1,0 +1,21 @@
+﻿@page "/showtime"
+
+@using MTBS.WebServer.Client.Mediators
+@inject TicketStateMediator mediator
+
+
+<button @onclick=Click class="btn btn-warning"></button>
+
+@for (int i = 1; i < 11; i++)
+{
+    <TicketButton Id=i />
+}
+
+@code {
+    public Random random { get; set; } = new();
+
+    public void Click()
+    {
+        mediator.UpdateState(random.Next(0, 4), random.Next(1, 11));
+    }
+}

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MTBS.Application.Features.ShowTimes.Commands;
+using MTBS.Domain.Abstracts.Repositories;
 using MTBS.Infrastructure;
 using MTBS.Shared.ShowTimeDTOs;
 
@@ -10,7 +11,7 @@ namespace MTBS.WebServer.ApiControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ShowTimesController(IMediator mediator, AppDbContext db) : ControllerBase
+    public class ShowTimesController(IMediator mediator, AppDbContext db, IShowTimeRepository showTimeRepository) : ControllerBase
     {
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AddShowTimeRequest request,
@@ -28,6 +29,12 @@ namespace MTBS.WebServer.ApiControllers
             var showtime = await db.ShowTimes.Include(p => p.Tickets).FirstOrDefaultAsync(p => p.Id == id);
 
             return showtime == null ? NotFound() : Ok(showtime);
+        }
+
+        [HttpGet("Schedule")]
+        public async Task<IActionResult> GetSchedule()
+        {
+            return Ok(await showTimeRepository.GetSchedule());
         }
     }
 }

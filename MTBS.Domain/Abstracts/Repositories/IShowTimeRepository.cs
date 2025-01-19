@@ -9,5 +9,6 @@ namespace MTBS.Domain.Abstracts.Repositories
 {
     public interface IShowTimeRepository : IGenericRepository<ShowTime>
     {
+        Task<Dictionary<DateTime, List<ShowTime>>> GetSchedule();
     }
 }

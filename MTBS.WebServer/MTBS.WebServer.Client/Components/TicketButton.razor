@@ -1,0 +1,45 @@
+﻿@using MTBS.WebServer.Client.Mediators
+@inject TicketStateMediator mediator
+@implements IDisposable
+
+<button @onclick=SendState class="btn @Color">@Id</button>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    int state = 0;
+    public string Color => state switch
+    {
+        0 => "btn-info",
+        1 => "btn-success",
+        2 => "btn-secondary",
+        _ => "btn-danger"
+    };
+
+    protected override void OnInitialized()
+    {
+        mediator.AddTicket(this);
+    }
+
+    public void UpdateState(int state)
+    {
+        this.state = state;
+        StateHasChanged();
+    }
+    private void SendState()
+    {
+        int newState = state switch
+        {
+            0 => 1,
+            1 => 0,
+            _ => -1,
+        };
+        if (newState != -1)
+            mediator.UpdateState(newState, Id);
+    }
+
+    public void Dispose(){
+        mediator.RemoveTicket(Id);
+    }
+}
